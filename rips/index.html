@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
+  <script src="app.js"></script>
+  <!-- <script src="expressServer.js"></script> -->
+  <!-- <script src="bundle.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+
+    function getPersons() {
+      var xmlHttpReqeust = new XMLHttpRequest();
+
+      xmlHttpRequest.onreadystatechange = function () {
+        if (xmlHttpRequest.readyState == XMLHttpRequest.DONE && xmlHttpRequest.status == 200) {
+          document.getElementById("nodes").innerHTML = xmlHttpRequest.responseText;
+        }
+      };
+      xmlHttpRequest.open('GET', 'http://localhost:3000/test', true);
+      xmlHttpRequest.send();
+    }
+
+    $(document).ready(function () {
+
+      $("#submit").click(function (e) {
+        e.preventDefault();
+        var author_name = $("#author").val();
+        var title_name = $("#title").val();
+        var body_name = $("#body").val();
+
+        // var op = new Object();
+        // op.author = author_name;
+        // op.title = title_name;
+        // op.body = body_name;
+
+        var data = {
+          author: author_name,
+          title: title_name,
+          body: body_name
+        };
+
+        $.ajax({
+          type: 'POST',
+          url: 'http://localhost:3000/login',
+          data: JSON.stringify(data),
+          //datatype: 'json',
+          contentType: 'application/json',
+          success: function (data) {
+            console.log("Data ssuccessfully posted");
+            console.log(data.responseText);
+          }
+        });
+      }); //end of submit
+
+      $("#dlt").click(function (e) {
+        e.preventDefault();
+        var author_name = $("#author1").val();
+        var title_name = $("#title1").val();
+        var body_name = $("#body1").val();
+
+        var op1 = new Object();
+        op1.author = author_name;
+        // op.title = title_name;
+        // op.body = body_name;
+
+        var data = {
+          author: author_name,
+          title: title_name,
+          body: body_name
+        };
+
+        $.ajax({
+          type: 'POST',
+          url: 'http://localhost:3000/delta',
+          data: JSON.stringify(op1),
+          //datatype: 'json',
+          contentType: 'application/json',
+          success: function (op) {
+            console.log("Data ssuccessfully deleted");
+          }
+        });
+      });//end of delete
+
+      $("#ret").click(function (e) {
+        e.preventDefault();
+        var author_name = $("#author2").val();
+        var title_name = $("#title2").val();
+        var body_name = $("#body2").val();
+
+        var op1 = new Object();
+        op1.author = author_name;
+        // op.title = title_name;
+        // op.body = body_name;
+
+        var data = {
+          author: author_name,
+          title: title_name,
+          body: body_name
+        };
+
+        $.ajax({
+          type: 'POST',
+          url: 'http://localhost:3000/ret',
+          data: JSON.stringify(op1),
+          //datatype: 'json',
+          contentType: 'application/json',
+          success: function (op1) {
+              console.log(op1);              
+              $("#author2").val(op1.Author);
+              $("#title2").val(op1.Title);
+              $("#body2").val(op1.Body);
+          }
+        });
+      });//end of retrive
+
+    }); // END OF DOCUMENT READY FUNCTION
+  </script>
+</head>
+
+<body>
+  <div>
+    <form>
+      Author:
+      <input type="text" id="author">
+      <br>
+      <br> Title:
+      <input type="text" id="title">
+      <br>
+      <br> Body:
+      <input type="author" id="body">
+      <br>
+      <br>
+      <input type="submit" value="Insert" id="submit">
+    </form>
+    <form>
+      Author:
+      <input type="text" id="author1">
+      <br>
+      <br> Title:
+      <input type="text" id="title1">
+      <br>
+      <br> Body:
+      <input type="author" id="body1">
+      <br>
+      <br>
+      <input type="submit" value="Delete" id="dlt">
+    </form>
+    <form>
+      Author:
+      <input type="text" id="author2">
+      <br>
+      <br> Title:
+      <input type="text" id="title2">
+      <br>
+      <br> Body:
+      <input type="author" id="body2">
+      <br>
+      <br>
+      <input type="submit" value="Retrive" id="ret">
+    </form>
+    <form>
+      Author:
+      <input type="text" id="author">
+      <br>
+      <br> Title:
+      <input type="text" id="title">
+      <br>
+      <br> Body:
+      <input type="author" id="body">
+      <br>
+      <br>
+      <input type="submit" value="Update" id="upd" onclick='getPersons();'>
+    </form>
+  </div>
+</body>
+
+</html>

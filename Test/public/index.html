@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
+  <!-- <script src="app.js"></script> -->
+  <script src="expressServer.js"></script>
+  <!-- <script src="bundle.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+	  
+      $("#submit").click(function (e) {
+	  e.preventDefault();
+       var author_name = $("#author").val();
+        var title_name = $("#title").val();
+        var body_name = $("#body").val();
+		
+		var op = new Object();
+		op.author = author_name;
+		op.title = title_name;
+		op.body = body_name;
+		
+        var data = {
+        author : author_name,
+        title : title_name,
+        body : body_name
+		};
+
+        $.ajax({
+          type: 'POST',
+		  url: 'http://localhost:3000/endpoint',
+		  data: JSON.stringify(op),
+          //datatype: 'json',
+          contentType: 'application/json',
+          success: function (data) {
+          }	
+        });
+      });
+    }); // END OF DOCUMENT READY FUNCTION
+  </script>
+</head>
+
+<body>
+  <div>
+    <form>
+      Author:
+      <input type="text" id="author">
+      <br>
+      <br> Title:
+      <input type="text" id="title">
+      <br>
+      <br> Body:
+      <input type="author" id="body">
+      <br>
+      <br>
+      <input type="submit" value="Submit" id="submit">
+    </form>
+  </div>
+</body>
+
+</html>
